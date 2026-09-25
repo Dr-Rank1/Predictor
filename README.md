@@ -9,12 +9,12 @@ A sophisticated React application that provides real-time football match predict
 ## Key Features
 
 ### Core Capabilities
-- **Real Poisson Distribution Algorithm**: No mock data or RNG—predictions based on legitimate probability theory
+- **Real Poisson Distribution Algorithm**: No mock data or RNG - predictions based on legitimate probability theory
 - **Production-Grade Caching**: Smart localStorage caching with 24-hour expiry to respect API rate limits
 - **Glassmorphism UI**: Modern, translucent card designs with backdrop blur effects
 - **Framer Motion Animations**: Smooth, professional animations throughout
 - **Recharts Visualizations**: Interactive pie charts showing win/draw/loss probabilities
-- **Skeleton Loaders**: Pulsing gray boxes during loading (no "Loading..." text)
+- **Skeleton Loaders**: Pulsing gray boxes during loading (no standard loading text)
 - **Real-Time Data**: Fetches live data from football-data.org API
 
 ### Supported Competitions
@@ -71,29 +71,29 @@ Visit `http://localhost:5173` in your browser.
 
 ### Option 2: Direct Code (Development Only)
 
-Edit [src/api.js:13](src/api.js#L13):
+Edit `src/api.js`:
 ```javascript
 const API_KEY = import.meta.env.VITE_API_KEY || 'YOUR_KEY_HERE';
-//                                               ↑ Replace this
+//                                               ^ Replace this
 ```
 
 ---
 
 ## Project Architecture
 
-```
+```text
 predictor/
 ├── src/
 │   ├── hooks/
-│   │   └── useCachedFetch.js      ← Custom caching hook (24hr expiry)
+│   │   └── useCachedFetch.js      - Custom caching hook (24hr expiry)
 │   ├── components/
-│   │   └── MatchCard.jsx          ← Oracle card w/ animations + charts
-│   ├── predictionEngine.js        ← Poisson distribution logic
-│   ├── api.js                     ← football-data.org integration
-│   ├── App.jsx                    ← Main app with glassmorphism
-│   ├── index.css                  ← Tailwind + dark theme
+│   │   └── MatchCard.jsx          - Oracle card w/ animations + charts
+│   ├── predictionEngine.js        - Poisson distribution logic
+│   ├── api.js                     - football-data.org integration
+│   ├── App.jsx                    - Main app with glassmorphism
+│   ├── index.css                  - Tailwind + dark theme
 │   └── main.jsx
-├── .env.example                   ← Template for API key
+├── .env.example                   - Template for API key
 ├── tailwind.config.js
 └── package.json
 ```
@@ -120,10 +120,10 @@ attackStrength = (teamGoalsScored / matchesPlayed) / leagueAverage
 defenseStrength = (teamGoalsConceded / matchesPlayed) / leagueAverage
 ```
 
-**Step C: Expected Goals (λ - Lambda)**
+**Step C: Expected Goals (Lambda)**
 ```javascript
-homeExpectedGoals = homeAttack × awayDefense × leagueAverage
-awayExpectedGoals = awayAttack × homeDefense × leagueAverage
+homeExpectedGoals = homeAttack * awayDefense * leagueAverage
+awayExpectedGoals = awayAttack * homeDefense * leagueAverage
 ```
 
 **Step D: Poisson Probability**
@@ -131,12 +131,12 @@ awayExpectedGoals = awayAttack × homeDefense × leagueAverage
 For each possible scoreline (0-0, 1-0, 0-1, ..., 10-10):
 
 ```javascript
-P(X = k) = (λ^k × e^(-λ)) / k!
+P(X = k) = (Lambda^k * e^(-Lambda)) / k!
 
 // Accumulate probabilities:
-// - homeGoals > awayGoals → Home Win %
-// - homeGoals = awayGoals → Draw %
-// - homeGoals < awayGoals → Away Win %
+// - homeGoals > awayGoals -> Home Win %
+// - homeGoals = awayGoals -> Draw %
+// - homeGoals < awayGoals -> Away Win %
 ```
 
 ### Example Prediction Output
@@ -202,14 +202,6 @@ const { data, loading, error, refetch, clearCache } = useCachedFetch(
 - Provides cache statistics
 - Manual cache clearing
 
-**Cache Structure:**
-```javascript
-localStorage.setItem('cache_https://api...', JSON.stringify({
-  data: { ...apiResponse },
-  timestamp: 1704067200000
-}));
-```
-
 **Cache Stats:**
 ```javascript
 import { getCacheStats, clearAllCache } from './hooks/useCachedFetch';
@@ -260,7 +252,7 @@ When you click **"Predict with Poisson"**:
 - Button hover: Scale 1.05
 - Expand/collapse: Smooth height transitions
 - Background: Infinite gradient shift
-- Logo: Continuous 360° rotation
+- Logo: Continuous 360-degree rotation
 
 ---
 
@@ -322,7 +314,7 @@ export const predictMatch = (homeStats, awayStats, leagueAvg) => {
 
 **Mathematical Functions:**
 - `factorial(n)` - Calculates n!
-- `poissonProbability(λ, k)` - Core distribution formula
+- `poissonProbability(Lambda, k)` - Core distribution formula
 - `calculateAttackStrength()` - Offensive rating
 - `calculateDefenseStrength()` - Defensive rating
 - `calculateMatchProbabilities()` - Full outcome matrix
@@ -375,13 +367,13 @@ Features:
 
 ### Free Tier (football-data.org)
 
-- **10 requests/minute** ← This is why caching is CRITICAL
+- **10 requests/minute** - This is why caching is CRITICAL
 - **Multiple requests per day**
 - **Limited competitions** (PL, La Liga, BL1, Serie A, CL included)
 
 ### Request Optimization
 
-Our caching strategy reduces API calls by ~90%:
+Our caching strategy reduces API calls by around 90%:
 
 | Action | Without Cache | With Cache |
 |--------|--------------|------------|
@@ -470,9 +462,9 @@ For production (e.g., Vercel, Netlify):
 
 The Poisson model is based on established research:
 
-1. **Dixon & Coles (1997)** - "Modelling Association Football Scores and Inefficiencies in the Football Betting Market"
+1. **Dixon and Coles (1997)** - "Modelling Association Football Scores and Inefficiencies in the Football Betting Market"
 2. **Maher (1982)** - "Modelling association football scores"
-3. **Karlis & Ntzoufras (2003)** - "Analysis of sports data by using bivariate Poisson models"
+3. **Karlis and Ntzoufras (2003)** - "Analysis of sports data by using bivariate Poisson models"
 
 ---
 
@@ -481,7 +473,7 @@ The Poisson model is based on established research:
 This project is for **educational and demonstration purposes**.
 
 **Important:**
-- Respect football-data.org's [Terms of Service](https://www.football-data.org/terms)
+- Respect football-data.org's Terms of Service
 - Do NOT use predictions for commercial gambling
 - Attribution required if using code
 
@@ -509,6 +501,6 @@ This is a demonstration project, but improvements welcome:
 
 ---
 
-**Built by a Principal Frontend Engineer & Data Science Enthusiast**
+**Built by Ian Gicheha Mbae / Dr-Rank1**
 
-© 2025 ProMatch Predictor • Production-Grade Sports Analytics Platform
+Copyright 2025 ProMatch Predictor - Production-Grade Sports Analytics Platform
